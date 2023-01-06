@@ -20,7 +20,7 @@
     "test:integration": "export $(cat .env | grep -v \"#\" | xargs -0) && jest --runInBand --forceExit --verbose"
   },
   "dependencies": {
-    "@nestjs-prisma/database": "git+https://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@github.com/anrfreitas/nestjs-prisma.git",
+    "@nestjs-prisma/database": "git+https://github.com/anrfreitas/nestjs-prisma.git",
     "@nestjs/axios": "^0.0.8",
     "@nestjs/common": "^8.3.1",
     "@nestjs/config": "^2.0.0",
