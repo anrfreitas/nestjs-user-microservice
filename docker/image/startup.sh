@@ -1,10 +1,28 @@
 #!/bin/bash
 
+# --------------------- Installing dependencies ----------------------
+
 # Making sure to clean the cache
 yarn cache clean
 
 # Installing all dependencies
 yarn
+
+######################################################################
+
+
+# --------------------------- Prisma Setup ---------------------------
+
+# Building prisma dependency
+yarn --cwd ./node_modules/@nestjs-prisma/database build
+
+# Generating Prisma Client
+yarn db:generate
+
+# Deploying Prisma Client
+yarn db:deploy
+
+######################################################################
 
 # Setting up permission to all files and folders to be readable/writable
 # by any user outside this container. Reasons:

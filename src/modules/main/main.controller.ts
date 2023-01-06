@@ -15,6 +15,7 @@ import {
 } from '@nestjs/common';
 import { Cache } from 'cache-manager';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { PrismaService } from '@nestjs-prisma/database';
 import eventPattern from '../rabbitmq/eventPatterns';
 import PublisherRabbitService from '../rabbitmq/publisher/publisher.service';
 import MainService from './main.service';
@@ -28,6 +29,7 @@ class MainController {
         private readonly mainService: MainService,
         @Optional() @Inject(CACHE_MANAGER) private cacheManager: Cache,
         private readonly publisherRabbitService: PublisherRabbitService,
+        private readonly prisma: PrismaService,
     ) {}
 
     @Get()
@@ -52,6 +54,14 @@ class MainController {
             testQuery,
             testParam,
         };
+    }
+
+    @Get('prisma')
+    @HttpCode(200)
+    @ApiOperation({ summary: 'It tests the queue system' })
+    @ApiResponse({ status: 200, description: 'Returns message' })
+    async testPrisma(): Promise<any> {
+        return this.prisma.user.findMany();
     }
 
     @Get('queue/:name')
