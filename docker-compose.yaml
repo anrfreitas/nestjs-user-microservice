@@ -1,0 +1,144 @@
+services:
+  #------ PgSQL DB ------
+  postgres:
+    mem_limit: 512m
+    mem_reservation: 512m
+    container_name: zero_postgres
+    image: postgres:14
+    environment:
+      - POSTGRES_DB=zero_db
+      - POSTGRES_USER=zero
+      - POSTGRES_PASSWORD=secret
+    volumes:
+      - ./docker/postgres/init-script.sql:/docker-entrypoint-initdb.d/docker_postgres_init.sql
+      - pgsql_data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    networks:
+      - normal
+      - intranet
+
+  #------ PgAdmin ------
+  pgadmin:
+    mem_limit: 256m
+    mem_reservation: 256m
+    container_name: zero_pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "zero@user.com"
+      PGADMIN_DEFAULT_PASSWORD: "secret"
+      PGADMIN_LISTEN_PORT: "8080"
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    volumes:
+      - ./docker/pgadmin4/servers.json:/pgadmin4/servers.json
+      - ./docker/pgadmin4/pgpass:/pgadmin4/pgpass
+    networks:
+      - normal
+      - intranet
+
+  #------ MongoDB ------
+  mongo:
+    image: mongo
+    mem_limit: 512m
+    mem_reservation: 512m
+    container_name: zero_mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: zero
+      MONGO_INITDB_ROOT_PASSWORD: secret
+    networks:
+      - normal
+      - intranet
+
+  #------ MongoExpress ------
+  mongo-express:
+    image: mongo-express
+    mem_limit: 256m
+    mem_reservation: 256m
+    container_name: zero_mongoexpress
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: zero
+      ME_CONFIG_MONGODB_ADMINPASSWORD: secret
+      ME_CONFIG_MONGODB_URL: mongodb://zero:secret@mongo:27017
+      ME_CONFIG_SITE_BASEURL: /tools/mongoadmin
+    networks:
+      - normal
+      - intranet
+
+  #------ RabbitMQ ------
+  rabbitmq:
+    mem_limit: 256m
+    mem_reservation: 256m
+    container_name: zero_rabbitmq
+    image: rabbitmq:3-management-alpine
+    environment:
+      - RABBITMQ_DEFAULT_USER=zero
+      - RABBITMQ_DEFAULT_PASS=secret
+    volumes:
+      - rabbitmq:/var/lib/rabbitmq
+    ports:
+        - 5672:5672
+        - 15672:15672
+    networks:
+      - normal
+      - intranet
+
+  #------ Redis ------
+  redis:
+    mem_limit: 256m
+    mem_reservation: 256m
+    container_name: zero_redis
+    image: 'redis:alpine'
+    ports:
+      - '6379:6379'
+    volumes:
+      - 'redis:/data'
+    networks:
+      - normal
+      - intranet
+
+  #------ Mailhog ------
+  mailhog:
+    mem_limit: 256m
+    mem_reservation: 256m
+    container_name: zero_mailhog
+    image: 'mailhog/mailhog:latest'
+    ports:
+      - 1025:1025
+      - 8025:8025
+    networks:
+      - normal
+      - intranet
+
+  #------ NestJS ------
+  nestjs:
+    mem_limit: 256m
+    mem_reservation: 256m
+    container_name: zero_nestjs
+    build: ./docker/image/
+    image: nestjs/service:latest
+    ports:
+      - 9999:9999
+    volumes:
+      - ./:/app
+    networks:
+      - normal
+      - intranet
+
+volumes:
+  redis:
+    driver: local
+  pgsql_data:
+    driver: local
+  rabbitmq:
+    driver: local
+
+networks:
+  normal:
+    driver: bridge
+  intranet:
+    internal: true
