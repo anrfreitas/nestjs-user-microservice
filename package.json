@@ -11,7 +11,7 @@
     "start": "nest start --watch",
     "dev": "nest start --watch",
     "eslint-fix": "eslint ./src --fix",
-    "husky-prepare": "husky install",
+    "husky:prepare": "husky install",
     "db:generate": "yarn prisma generate --schema=./node_modules/@nestjs-prisma/database/prisma/schema.prisma",
     "db:deploy": "yarn prisma migrate deploy --schema=./node_modules/@nestjs-prisma/database/prisma/schema.prisma",
     "db:seed": "yarn --cwd ./node_modules/@nestjs-prisma/database ts-node src/seed/seed.ts",
