@@ -20,6 +20,10 @@ const RABBITMQ_DEFAULT_QUEUE = () => process.env.RABBITMQ_DEFAULT_QUEUE || 'NEST
 const RABBITMQ_CLIENT_PROXY_TOKEN = () =>
     process.env.RABBITMQ_CLIENT_PROXY_TOKEN || 'RABBITMQ_CLIENT_PROXY_TOKEN';
 
+// Crypto
+const ENCRYPTION_KEY = () => process.env.ENCRYPTION_KEY || 'byz9VFNtbRQM0yBODcCb1lrUtVVH3D3x';
+const ENCRYPTION_IV = () => process.env.ENCRYPTION_IV || 'X05IGQ5qdBnIqAWD';
+
 const globalSettings = {
     ENV,
     MICROSERVICE_APP_CONTEXT,
@@ -35,6 +39,8 @@ const globalSettings = {
     RABBITMQ_PERSIST_MESSAGE_NTIMES,
     RABBITMQ_CLIENT_PROXY_TOKEN,
     RABBITMQ_DEFAULT_QUEUE,
+    ENCRYPTION_KEY,
+    ENCRYPTION_IV,
 };
 
 export default globalSettings;

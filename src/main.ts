@@ -5,6 +5,7 @@ import { INestApplication, ValidationPipe } from '@nestjs/common';
 import cookieParser from 'cookie-parser';
 import globalSettings from './config';
 import MainModule from './modules/main/main.module';
+import GlobalHeaderInterceptor from './helpers/global-interceptor';
 
 async function setupSwagger(app) {
     const config = new DocumentBuilder()
@@ -19,6 +20,7 @@ async function setupSwagger(app) {
 async function startApp(app: INestApplication): Promise<void> {
     app.setGlobalPrefix(globalSettings.MICROSERVICE_GLOBAL_PREFIX());
     app.use(cookieParser());
+    app.useGlobalInterceptors(new GlobalHeaderInterceptor());
     app.useGlobalPipes(
         new ValidationPipe({
             errorHttpStatusCode: 422,
