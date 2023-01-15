@@ -2,7 +2,11 @@
 
 # --------------------- Installing dependencies ----------------------
 
-yarn external:refresh
+# Making sure to clean the cache
+yarn cache clean
+
+# Installing all dependencies
+yarn
 
 ######################################################################
 
