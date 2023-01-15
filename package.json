@@ -18,8 +18,8 @@
     "test:integration": "export $(cat .env | grep -v \"#\" | xargs -0) && jest --runInBand --forceExit --verbose"
   },
   "dependencies": {
-    "@nestjs-prisma/database": "git+https://github.com/anrfreitas/nestjs-prisma-client.git#^1.0.5",
-    "@nestjs-typescript/global-types": "git+https://github.com/anrfreitas/nestjs-global-types.git#^1.0.3",
+    "@nestjs-prisma/database": "git+https://github.com/anrfreitas/nestjs-prisma-client.git#^1.0.6",
+    "@nestjs-typescript/global-types": "git+https://github.com/anrfreitas/nestjs-global-types.git#^1.0.4",
     "@nestjs/axios": "^0.0.8",
     "@nestjs/common": "^8.3.1",
     "@nestjs/config": "^2.0.0",
