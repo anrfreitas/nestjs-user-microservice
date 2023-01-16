@@ -16,9 +16,12 @@ import {
 import { Cache } from 'cache-manager';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { PrismaService } from '@nestjs-prisma/database';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import eventPattern from '../rabbitmq/eventPatterns';
 import PublisherRabbitService from '../rabbitmq/publisher/publisher.service';
 import MainService from './main.service';
+import { Log, LogDocument } from '@/schemas/log.schema';
 
 @Controller('test')
 class MainController {
@@ -30,6 +33,7 @@ class MainController {
         @Optional() @Inject(CACHE_MANAGER) private cacheManager: Cache,
         private readonly publisherRabbitService: PublisherRabbitService,
         private readonly prisma: PrismaService,
+        @InjectModel(Log.name) private logModel: Model<LogDocument>,
     ) {}
 
     @Get()
@@ -109,6 +113,23 @@ class MainController {
         );
 
         return res;
+    }
+
+    @Get('/mongo/:name')
+    @HttpCode(200)
+    @ApiOperation({ summary: 'It tests the caching system' })
+    @ApiResponse({ status: 200, description: 'Returns item from mongo db' })
+    async testMongo(@Param('name') name: string): Promise<any> {
+        const createdLog = new this.logModel({
+            service: 'user-microservice',
+            context: 'MainController@testMongo',
+            datetime: Date.now(),
+            data: name,
+        });
+
+        await createdLog.save();
+
+        return this.logModel.findOne().sort({ _id: -1 }).exec();
     }
 
     private checkCachingSystemOut(): Promise<void> {

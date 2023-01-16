@@ -30,7 +30,8 @@ module.exports = {
         "import/order": 2
     },
     "ignorePatterns":[
-        '.eslintrc.js'
+        '.eslintrc.js',
+        'mongo-init.js',
     ],
     "root": true,
     "env":{

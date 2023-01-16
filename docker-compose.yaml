@@ -45,9 +45,14 @@ services:
     mem_limit: 512m
     mem_reservation: 512m
     container_name: zero_mongo
+    ports:
+      - 27017:27017
     environment:
       MONGO_INITDB_ROOT_USERNAME: zero
       MONGO_INITDB_ROOT_PASSWORD: secret
+      MONGO_INITDB_DATABASE: logs
+    volumes:
+            - ./docker/mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
     networks:
       - normal
       - intranet
@@ -57,6 +62,7 @@ services:
     image: mongo-express
     mem_limit: 256m
     mem_reservation: 256m
+    restart: always
     container_name: zero_mongoexpress
     ports:
       - 8081:8081
@@ -64,7 +70,6 @@ services:
       ME_CONFIG_MONGODB_ADMINUSERNAME: zero
       ME_CONFIG_MONGODB_ADMINPASSWORD: secret
       ME_CONFIG_MONGODB_URL: mongodb://zero:secret@mongo:27017
-      ME_CONFIG_SITE_BASEURL: /tools/mongoadmin
     networks:
       - normal
       - intranet
@@ -116,8 +121,8 @@ services:
 
   #------ NestJS ------
   nestjs:
-    mem_limit: 256m
-    mem_reservation: 256m
+    mem_limit: 1024m
+    mem_reservation: 1024m
     container_name: zero_nestjs
     build: ./docker/image/
     image: nestjs/service:latest
