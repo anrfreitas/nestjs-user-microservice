@@ -18,6 +18,7 @@ import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { PrismaService } from '@nestjs-prisma/database';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { v4 as uuidv4 } from 'uuid';
 import eventPattern from '../rabbitmq/eventPatterns';
 import PublisherRabbitService from '../rabbitmq/publisher/publisher.service';
 import MainService from './main.service';
@@ -120,16 +121,19 @@ class MainController {
     @ApiOperation({ summary: 'It tests the caching system' })
     @ApiResponse({ status: 200, description: 'Returns item from mongo db' })
     async testMongo(@Param('name') name: string): Promise<any> {
+        const external_id = uuidv4();
         const createdLog = new this.logModel({
-            service: 'user-microservice',
             context: 'MainController@testMongo',
-            datetime: Date.now(),
-            data: name,
+            external_id,
+            data: JSON.stringify({ name }),
         });
 
         await createdLog.save();
 
-        return this.logModel.findOne().sort({ _id: -1 }).exec();
+        return this.logModel.findOne({ external_id }).exec();
+
+        // getting the last inserted
+        // return this.logModel.findOne().sort({ _id: -1 }).exec();
     }
 
     private checkCachingSystemOut(): Promise<void> {

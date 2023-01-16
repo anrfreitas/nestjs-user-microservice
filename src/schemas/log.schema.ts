@@ -5,17 +5,39 @@ export type LogDocument = HydratedDocument<Log>;
 
 @Schema()
 export class Log {
-    @Prop()
+    @Prop({
+        required: true,
+        default: 'user-microservice',
+    })
     service: string;
 
-    @Prop()
+    @Prop({
+        required: true,
+    })
     context: string;
 
-    @Prop()
+    @Prop({
+        required: true,
+        default: Date.now(),
+    })
     datetime: Date;
 
-    @Prop()
+    @Prop({
+        required: true,
+        unique: true,
+        index: true,
+    })
+    external_id: string;
+
+    @Prop({
+        required: true,
+    })
     data: string;
+
+    @Prop({
+        required: false,
+    })
+    model?: string;
 }
 
 export const LogSchema = SchemaFactory.createForClass(Log);
