@@ -19,9 +19,6 @@ yarn --cwd ./node_modules/@nestjs-prisma/database build
 # Generating Prisma Client
 yarn db:generate
 
-# Deploying Prisma Client
-yarn db:deploy
-
 ######################################################################
 
 # Setting up permission to all files and folders to be readable/writable

@@ -124,6 +124,7 @@ services:
     mem_limit: 1024m
     mem_reservation: 1024m
     container_name: zero_nestjs
+    platform: linux/amd64
     build: ./docker/image/
     image: nestjs/service:latest
     ports:
