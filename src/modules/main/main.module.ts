@@ -4,6 +4,8 @@ import SubscriberRabbitModule from '../rabbitmq/subscriber/subscriber.module';
 import PublisherRabbitModule from '../rabbitmq/publisher/publisher.module';
 import TestModule from '../test/test.module';
 import AuthModule from '../auth/auth.module';
+import UserModule from '../user/user.module';
+import PhoneModule from '../phone/phone.module';
 import MainService from './main.service';
 import MainController from './main.controller';
 
@@ -14,6 +16,8 @@ import MainController from './main.controller';
         PublisherRabbitModule,
         TestModule,
         AuthModule,
+        UserModule,
+        PhoneModule,
     ],
     controllers: [MainController],
     providers: [MainService],

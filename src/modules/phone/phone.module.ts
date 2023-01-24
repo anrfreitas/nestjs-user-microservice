@@ -5,8 +5,7 @@ import SubscriberRabbitModule from '../rabbitmq/subscriber/subscriber.module';
 import PublisherRabbitModule from '../rabbitmq/publisher/publisher.module';
 import Schemas from '../../schemas';
 import { MongooseModule, CacheModule } from '../../helpers/modules-export';
-import TestService from './test.service';
-import TestController from './test.controller';
+import PhoneController from './phone.controller';
 
 @Module({
     imports: [
@@ -17,9 +16,9 @@ import TestController from './test.controller';
         ...Schemas,
         CacheModule,
     ],
-    controllers: [TestController],
-    providers: [TestService, PrismaService],
+    controllers: [PhoneController],
+    providers: [PrismaService],
 })
-class TestModule {}
+class PhoneModule {}
 
-export default TestModule;
+export default PhoneModule;
