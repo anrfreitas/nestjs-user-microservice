@@ -15,12 +15,13 @@
     "db:generate": "yarn prisma generate --schema=./node_modules/@nestjs-prisma/database/prisma/schema.prisma",
     "db:deploy": "yarn prisma migrate deploy --schema=./node_modules/@nestjs-prisma/database/prisma/schema.prisma",
     "db:seed": "yarn --cwd ./node_modules/@nestjs-prisma/database ts-node src/seed/seed.ts",
-    "test:integration": "export $(cat .env | grep -v \"#\" | xargs -0) && jest --runInBand --forceExit --verbose",
+    "test:integration": "export $(cat .env.test | grep -v \"#\" | xargs -0) && jest --runInBand --forceExit --verbose",
     "upgrade:dependencies": "yarn upgrade --latest --pattern '@nestjs-*/*'"
   },
   "dependencies": {
     "@nestjs-prisma/database": "git+https://github.com/anrfreitas/nestjs-prisma-client.git#latest",
     "@nestjs-typescript/global-types": "git+https://github.com/anrfreitas/nestjs-global-types.git#latest",
+    "axios": "^0.27.2",
     "@nestjs/axios": "^0.0.8",
     "@nestjs/common": "^8.3.1",
     "@nestjs/config": "^2.0.0",
@@ -58,8 +59,6 @@
     "@typescript-eslint/parser": "^5.0.0",
     "amqp-connection-manager": "^4.1.3",
     "amqplib": "^0.8.0",
-    "axios": "^0.27.2",
-    "concurrently": "^7.4.0",
     "eslint": "^8.2.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.26.0",

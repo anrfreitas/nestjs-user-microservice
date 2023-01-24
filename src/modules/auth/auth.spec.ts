@@ -1,4 +1,5 @@
 import cookieParser from 'cookie-parser';
+import { HttpService } from '@nestjs/axios';
 import {
     CACHE_MANAGER,
     Controller,
@@ -12,6 +13,7 @@ import {
 import { Test } from '@nestjs/testing';
 import request from 'supertest';
 import moxios from 'moxios';
+import { AxiosInstance } from 'moxios/node_modules/axios';
 import { User } from '@nestjs-prisma/database';
 import { Cache } from 'cache-manager';
 import AuthMiddleware from './auth.middleware';
@@ -65,7 +67,8 @@ describe('Auth Middleware', () => {
                 imports: [TestModule],
             }).compile();
 
-            moxios.install();
+            const httpService = testModule.get<HttpService>(HttpService);
+            moxios.install(httpService.axiosRef as unknown as AxiosInstance);
 
             app = testModule.createNestApplication();
             app.use(cookieParser());

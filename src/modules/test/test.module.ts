@@ -27,8 +27,8 @@ const MONGO_CONNECTION_STRING = `mongodb://${globalSettings.MONGODB_USER()}:${gl
         CacheModule.register({
             isGlobal: true,
             store: redisStore,
-            host: 'zero_redis',
-            port: 6379,
+            host: globalSettings.REDIS_HOST(),
+            port: globalSettings.REDIS_PORT(),
         }),
     ],
     controllers: [TestController],

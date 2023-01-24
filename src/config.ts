@@ -24,11 +24,16 @@ const RABBITMQ_CLIENT_PROXY_TOKEN = () =>
 const ENCRYPTION_KEY = () => process.env.ENCRYPTION_KEY || 'byz9VFNtbRQM0yBODcCb1lrUtVVH3D3x';
 const ENCRYPTION_IV = () => process.env.ENCRYPTION_IV || 'X05IGQ5qdBnIqAWD';
 
+// Mongo
 const MONGODB_USER = () => process.env.MONGODB_USER || 'zero';
 const MONGODB_PASSWORD = () => process.env.MONGODB_PASSWORD || 'secret';
-const MONGODB_HOST = () => process.env.MONGODB_HOST || 'mongo';
+const MONGODB_HOST = () => process.env.MONGODB_HOST || 'zero_mongo';
 const MONGODB_PORT = () => process.env.MONGODB_PORT || '27017';
 const MONGODB_DATABASE = () => process.env.MONGODB_DATABASE || 'logs';
+
+// Redis
+const REDIS_HOST = () => process.env.REDIS_HOST || 'zero_redis';
+const REDIS_PORT = () => process.env.REDIS_PORT || '6379';
 
 const globalSettings = {
     ENV,
@@ -52,6 +57,8 @@ const globalSettings = {
     MONGODB_HOST,
     MONGODB_PORT,
     MONGODB_DATABASE,
+    REDIS_HOST,
+    REDIS_PORT,
 };
 
 export default globalSettings;
